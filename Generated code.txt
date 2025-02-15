@@ -1,0 +1,57 @@
+Pages:
+
+import { test, expect } from '@playwright/test';
+
+test('login form interaction', async ({ page }) => {
+  // Set timeout to 90 seconds
+  page.setDefaultTimeout(90000);
+
+  // Navigate to the page
+  await page.goto('unknown');
+
+  // Store frequently used locators in variables for reuse
+  const usernameInput = page.locator('#login');
+  const passwordInput = page.locator('#password');
+  const loginButton = page.locator('button', { hasText: 'Log in' });
+
+  // Fill in the username
+  await usernameInput.fill('username');
+
+  // Fill in the password
+  await passwordInput.fill('password');
+
+  // Click the login button
+  await loginButton.click();
+
+  // Assert that the login button was clicked
+  await expect(loginButton).toBeDisabled();
+});
+
+
+
+Test case:
+
+import { test, expect } from '@playwright/test';
+
+test('should login with valid credentials', async ({ page }) => {
+  // Navigate to the login page
+  await page.goto('https://martserv.averigoqa.com/web/login', { timeout: 90000 });
+
+  // Store frequently used locators in variables for reuse
+  const usernameInput = page.locator('#login');
+  const passwordInput = page.locator('#password');
+  const loginButton = page.locator('button', { hasText: 'Log in' });
+
+  // Fill in the username and password
+  await usernameInput.fill('your-username');
+  await passwordInput.fill('your-password');
+
+  // Click the login button
+  await loginButton.click();
+
+  // Wait for the login to complete
+  await page.waitForTimeout(1000);
+
+  // Validate the login was successful
+  await expect(page).not.toHaveTitle('Login');
+}, { timeout: 90000 });
